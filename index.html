@@ -16,6 +16,7 @@
    
     
 
+
     <section class="calculatorthreecontainer">
         <div>
             <label for="name">Name :</label>
@@ -25,46 +26,58 @@
         <div>
             <label for="age">Date of Birth :</label>
             <div class="date" id="date" style="width: 50% !important;">
-                <input type="number" id="day" name="day" max="31" min="1" step="1" value="" style="width: auto !important; max-width: 52px; font-size: 12px; text-align: center;">
-                <input type="number" id="month" name="month" max="12" min="01" step="1" value="" style="width: auto !important; max-width: 52px; font-size: 12px; text-align: center;">
-                <input type="number" id="year" name="year" max="2999" min="1900" step="1" value="" style="width: auto !important; max-width: 52px; font-size: 12px; text-align: center;">
+                <input type="text" id="day" name="day" value="" style="width: 100% !important; font-size: 12px; text-align: center;">
             </div>
         </div>
         <div>
-            <label for="plan-select">Plan :</label>
-
-            <select name="plans" id="plan-select">
-                <option value="def">--Please choose a plan--</option>
-                <option value="Life Plus Plan - With Cash Backs">Life Plus Plan - With Cash Backs</option>
-                <option value="Life Plus Plan - No Cash Backs">Life Plus Plan - No Cash Backs</option>
-                <option value="Life Plan - With Cash Backs">Life Plan - With Cash Backs</option>
-                <option value="Life Plan - No Cash Backs">Life Plan - No Cash Backs</option>
-                <option value="Education Plan - With Cash Backs">Education Plan - With Cash Backs</option>
-                <option value="Education Plan - No Cash Backs">Education Plan - No Cash Backs</option>
-            </select>
+            <label for="policyterm">Policy Term :</label>
+            <input type="text" id="policyterm" name="policyterm"
+            value="Enter Policy Term Here" placeholder="Enter Policy Term Here">
         </div>
         <div>
-            <label for="plan-select">Sum Assured :</label>
-
-            <select name="sums" id="sum-select">
-                <option value="def">--Please choose a sum--</option>
-                <option value="5m">5,000,000</option>
-                <option value="7.5m">7,500,000</option>
-                <option value="10m">10,000,000</option>
-                <option value="12.5m">12,500,000</option>
-                <option value="15m">15,000,000</option>
-                <option value="17.5m">17,500,000</option>
-                <option value="20m">20,000,000</option>
-            </select>
+            <label for="age">Age :</label>
+            <input type="text" id="age" name="age"
+            value="Enter Age Here" placeholder="Enter Age Here">
         </div>
         <div>
-            <label for="term">Term :</label>
-            <select name="terms" id="term-select">
-                <option value="def"> *Please choose a sum first.* </option>
-            </select>
+            <label for="suminsured">Sum Insured :</label>
+            <input type="text" id="suminsured" name="suminsured"
+            value="Enter Sum Insured Here" placeholder="Enter Sum Insured Here">
         </div>
+        <div>
+            <label for="premium">Premium :</label>
+            <input type="text" id="premium" name="premium"
+            value="Enter Premium Here" placeholder="Enter Premium Here">
+        </div>
+        <div>
+            <label for="totalpremium">Total Premium Contributions :</label>
+            <input type="text" id="totalpremium" name="totalpremium"
+            value="Enter Total Premium Here" placeholder="Enter Total Premium Here">
+        </div>
+        <div>
+            <label for="revbonus">Estimated Revisionary Bonus :</label>
+            <input type="text" id="revbonus" name="revbonus"
+            value="Enter Revisionary Bonus Here" placeholder="Enter Revisionary Bonus Here">
+        </div>
+        <div>
+            <label for="termbonus">Estimated 2 Percent Terminal Bonus :</label>
+            <input type="text" id="termbonus" name="termbonus"
+            value="Enter Terminal Bonus Here" placeholder="Enter Terminal Bonus Here">
+        </div>
+        <div>
+            <label for="totalmatval">Estimated Total Maturity Value :</label>
+            <input type="text" id="totalmatval" name="totalmatval"
+            value="Enter Total Maturity Value Here" placeholder="Enter Total Maturity Value Here">
+        </div>
+        <div>
+            <label for="cashback">Single Cashback :</label>
+            <input type="text" id="cashback" name="cashback"
+            value="Enter Cashback Here" placeholder="Enter Cashback Here">
+        </div>
+       
+      
         <div class="button">
-            <button name="getPrem" id="getPrem"> Get premium price.</button>
+            <button name="getPrem" id="getPrem"> Get a pdf</button>
         </div>
         <div class="premiumprice">
            

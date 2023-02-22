@@ -144,6 +144,8 @@ button:hover {
 
 .premiumprice {
     justify-content: center !important;
+    display: flex;
+    flex-flow: column;
     width: 100%;
 }
 

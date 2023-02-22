@@ -1,6 +1,18 @@
-const server = "https://script.google.com/macros/s/AKfycbxAb_rCj1VVL_gNLrCaP8oXIsFUL-BOGLuXvxH9WudHZ8q1p0fS-MR6gMEquaGQYmeM/exec";
+const server = "https://script.google.com/macros/s/AKfycbzqvuHfz2KfMNR3pDsb97T3bk4EC_SbLuFq2tYiAiqJMXDP6r0XXm348kJISVaZQDVP/exec";
+const defobj = {"parameters":{"paraOne":"alliancepdf"},"postData":{"contents":JSON.stringify({
+    "name": "Ismaili Amir Simba",
+    "day": "22-02-2023",
+    "policyterm": "25 Years",
+    "age": "29",
+    "suminsured": "1,000,000",
+    "premium": "1,000,000",
+    "totalpremium": "1,000,000",
+    "revbonus": "1,000,000",
+    "termbonus": "1,000,000",
+    "totalmatval": "1,000,000",
+    "cashback": "1,000,000"
+  })}};
 const butt = document.getElementById("getPrem");
-const sumEle = document.getElementById("sum-select");
 let publicDateVar = 0;
 
 
@@ -17,146 +29,44 @@ window.onload = () => {
     const dateVar = new Date().toDateInputValue();
     publicDateVar = dateVar;
     const arr = dateVar.toString().split("-");
-    document.getElementById('day').value = arr[2];
-    document.getElementById('month').value = arr[1];
-    document.getElementById('year').value = arr[0];
-    addTermEventListener();
-    addGetPremEventListener();
-    addPlanEventListener();
-    addDateEventListeners()
-}
-
-function addTermEventListener () {
-    const sumSelect = document.getElementById("sum-select");
-    sumSelect.addEventListener("input",()=>{
-        checkSumVal(sumSelect);
-    })
-}
-
-function addPlanEventListener () {
-    const planSelect = document.getElementById("plan-select");
-    planSelect.addEventListener("input",()=>{
-        if(planSelect.value==="Life Plus Plan - With Cash Backs"||planSelect.value==="Life Plus Plan - No Cash Backs"){
-            addNumInput();
-        }else{
-            if(document.getElementById("new-num-input")!==null&&document.getElementById("new-num-input").nodeType){
-                document.getElementById("new-num-input").replaceWith(sumEle);
-                setTermDefault();
-            }
-
-        }
-    })
-}
-
-function checkSumVal(element){
-    switch (element.value) {
-        case '5m':
-            setTerm(2);
-            break;
-        case '7.5m':
-            setTerm(2);
-            break;
-        case '10m':
-            setTerm(3);
-            break;
-        case '12.5m':
-            setTerm(3);
-            break;
-        case '15m':
-            setTerm(3);
-            break;
-        case '17.5m':
-            setTerm(3);
-            break;
-        case '20m':
-            setTerm(3);
-            break;
-        default:
-            setTermDefault();
-      }
-}
-
-function setTerm (int){
-    switch (int) {
-        case 2:
-            setTermOne();
-            break;
-        default:
-            setTermTwo();
-      }
-    
-}
-
-function setTermOne () {
-    const opt1 = document.createElement("option");
-    const opt2 = document.createElement("option");
-    const termSelect = document.getElementById("term-select");
-    opt1.value = "12 years";
-    opt1.innerHTML = " 12 years ";
-    opt2.value = "15 years";
-    opt2.innerHTML = " 15 years ";
-    termSelect.innerHTML = "";
-    termSelect.appendChild(opt1);
-    termSelect.appendChild(opt2);
-}
-
-function setTermTwo () {
-    const opt1 = document.createElement("option");
-    const opt2 = document.createElement("option");
-    const opt3 = document.createElement("option");
-    const termSelect = document.getElementById("term-select");
-    opt1.value = "12 years";
-    opt1.innerHTML = " 12 years ";
-    opt2.value = "15 years";
-    opt2.innerHTML = " 15 years ";
-    opt3.value = "10 years";
-    opt3.innerHTML = " 10 years ";
-    termSelect.innerHTML = "";
-    termSelect.appendChild(opt3);
-    termSelect.appendChild(opt1);
-    termSelect.appendChild(opt2);
+    document.getElementById('day').value = arr[2]+"-"+arr[1]+"-"+arr[0];
+    addSubmitEvent();
 }
 
 
-function setTermDefault () {
-    const opt1 = document.createElement("option");
-    const termSelect = document.getElementById("term-select");
-    opt1.value = "def";
-    opt1.innerHTML = "  *Please choose a sum first.* ";
-    termSelect.innerHTML = "";
-    termSelect.appendChild(opt1);
-}
 
 
-function addGetPremEventListener(){
-    const getPremBut = document.getElementById("getPrem");
-    getPremBut.addEventListener("click",()=>{
-        const obj1 = {}
-        obj1["name"] = document.getElementById("name").value;
-        obj1["age"] = `${document.getElementById("year").value}-${document.getElementById("month").value}-${document.getElementById("day").value}`;
-        obj1["planSelected"] = document.getElementById("plan-select").value;
-        if(document.getElementById("new-num-input")!==null&&document.getElementById("new-num-input").nodeType){
-            obj1["sumSelected"] = document.getElementById("new-num-input").value;
-        }else{
-            obj1["sumSelected"] = document.getElementById("sum-select").value;
-        }
-        obj1["termSelected"] = document.getElementById("term-select").value;
-        checkReadyToGo(obj1);
-    })
-}
-
-
-function checkReadyToGo(obj1){
-    if(obj1.planSelected !== "def"&&obj1.sumSelected !== "def"&&obj1.termSelected !== "def"){
+function addSubmitEvent (){
+    butt.addEventListener("click",async(e)=>{
+        const vals = e.target.parentNode.parentNode.querySelectorAll("input");
+        const obj = {};
+        vals.forEach(val=>{
+            obj[val.name] = val.value;
+        })
+        //defobj.postData.contents = obj;
+        console.log(obj)
         startAnimation();
-        fetchInfoWithFilter (obj1,"getPremium").then((obj)=>{
-            showPremium(obj);
-        });
-    }else{
-       // alert("Please make sure you've chosen a plan, term, and sum assured.")
-        showCustomPopUp("Please make sure you've chosen a plan, term, and sum assured.");
-    }
+        fetchInfoWithFilter(JSON.stringify(obj),"alliancepdf").then((e)=>{
+            stopAnimation();
+            const linkSource = `data:application/pdf;base64,${e}`;
+            const downloadLink = document.createElement("a");
+            const space = document.createElement("br");
+            downloadLink.href = linkSource;
+            downloadLink.innerText = "Download Pdf";
+            downloadLink.download = "test.pdf";
+            //downloadLink.click();
+            document.querySelectorAll(".premiumprice")[0].innerHTML = "";
+            document.querySelectorAll(".premiumprice")[0].innerHTML = "Download your pdf at the following link. ";
+            document.querySelectorAll(".premiumprice")[0].appendChild(space);
+            document.querySelectorAll(".premiumprice")[0].appendChild(downloadLink);
+        })
+    })
 }
+
+
+
+
+
 
 
 async function fetchInfoWithFilter (data,para) {
@@ -192,7 +102,7 @@ async function fetchInfoWithFilter (data,para) {
           })
           .then(function(myBlob) {
             
-            var cloudObject = JSON.parse(myBlob);
+            var cloudObject = myBlob;
             
           
             return cloudObject;
@@ -210,40 +120,7 @@ async function fetchInfoWithFilter (data,para) {
   };
 
 
-  function showPremium(obj){
-      stopAnimation().then(()=>{
-          if(obj.premium==="tooyoung"){
-               // alert("you have to be at least 18 years old!");
-                showCustomPopUp("you have to be at least 18 years old!");
-          }else if(obj.premium==="tooold"){
-           // alert("you have to be less than 60 years old!");
-            showCustomPopUp("you have to be less than 60 years old!")
-          }else if(obj.planSelected==="Life Plus Plan - No Cash Backs"||obj.planSelected==="Life Plus Plan - With Cash Backs"){
-            document.querySelectorAll(".premiumprice")[0].innerHTML = `<br>
-            You are ${obj.age} years old.<br><br>
-            Your premium price is ${obj.premium} Tshs.<br>
-            Total premium collected is ${obj.newObj.premTot} Tshs.<br><br>
-            Guranteed sum is ${obj.sumSelected} Tshs.<br><br>
-            Revisionary Bonus is ${obj.newObj.revBonus} Tshs.<br><br>
-            Terminal Bonus is ${obj.newObj.termBonus} Tshs.<br><br>
-            Total Cashback is ${obj.newObj.cashBackTot} Tshs.<br><br>
-            Full Maturity Value is ${obj.newObj.fullMaturity} Tshs.<br><br>`
-          }else{
-            document.querySelectorAll(".premiumprice")[0].innerHTML = `<br>
-            You are ${obj.age} years old.<br><br>
-            Your premium price is ${obj.premium} Tshs.<br>
-            Total premium collected is ${obj.newObj.premTot} Tshs.<br><br>
-            Guranteed sum is ${obj.sumSelected} Tshs.<br><br>
-            Revisionary Bonus is ${obj.newObj.revBonus} Tshs.<br><br>
-            Terminal Bonus is ${obj.newObj.termBonus} Tshs.<br><br>
-            Total Cashback is ${obj.newObj.cashBackTot} Tshs.<br><br>
-            Full Maturity Value is ${obj.newObj.fullMaturity} Tshs.<br><br>`
-          }
-        
-      });
-     
 
-  };
 
   function  startAnimation(){
       butt.style.visibility = "collapse";
@@ -257,22 +134,6 @@ async  function  stopAnimation(){
 };
 
 
-function addNumInput (){
-    const numEle = document.createElement("input");
-    numEle.id="new-num-input";
-    numEle.min = 40000000;
-    numEle.type = "number";
-    numEle.placeholder = 40000000;
-    numEle.step = 1000000;
-    numEle.addEventListener("change",()=>{
-        if(numEle.value<40000000){
-            numEle.value=40000000;
-            showCustomPopUp("The Life Plus Plan is only for sums of 40m and higher.");
-        }
-    })
-    sumEle.replaceWith(numEle);
-    setTerm(3);
-}
 
 
 function showCustomPopUp(text){
